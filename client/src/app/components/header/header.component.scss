@@ -1,0 +1,37 @@
+.topbar {
+  height: 66px;
+  background: #fff;
+  border-bottom: 1px solid #e8e8e1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4%;
+  font:
+    9px 'DM Sans',
+    sans-serif;
+  letter-spacing: 1px;
+  color: #77796f;
+}
+.breadcrumb span {
+  color: #c4c4bb;
+  padding: 0 9px;
+}
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  letter-spacing: 0;
+}
+.current-date {
+  font-size: 10px;
+}
+.avatar {
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #d7c8a8;
+  color: #333;
+  font-size: 9px;
+}
