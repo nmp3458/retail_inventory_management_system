@@ -30,6 +30,7 @@ export class Dashboard implements OnInit {
 
     effect(() => {
       const filters = this.appState.filters();
+      this.appState.productRevision();
 
       console.log('Filter changed:', filters);
 

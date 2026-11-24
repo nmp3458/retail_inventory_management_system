@@ -1,0 +1,176 @@
+@if (appState.editProductOpen()) {
+  <div class="edit-backdrop" aria-hidden="true" (click)="appState.closeEditProduct()"></div>
+
+  <aside class="edit-sidebar" role="dialog" aria-modal="true" aria-labelledby="edit-product-title">
+    <div class="edit-header">
+      <div>
+        <small class="edit-eyebrow">INVENTORY</small>
+        <h2 id="edit-product-title">Edit products</h2>
+      </div>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close edit products"
+        (click)="appState.closeEditProduct()"
+      ></button>
+    </div>
+
+    <div class="edit-sidebar-body">
+      <section class="product-list" aria-label="Products">
+        <h3>All products</h3>
+        @for (product of products(); track product._id) {
+          <button
+            type="button"
+            class="product-list-item"
+            [class.active]="selectedProduct()?._id === product._id"
+            (click)="selectProduct(product)"
+          >
+            <img [src]="getImageUrl(product.image)" [alt]="product.name" />
+            <span class="product-list-info">
+              <small>{{ getCategoryName(product.category) }}</small>
+              <strong>{{ product.name }}</strong>
+              <span>₹{{ product.price | number }} · Stock {{ product.stock }}</span>
+            </span>
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+          </button>
+        } @empty {
+          <p class="empty-products">No products available.</p>
+        }
+      </section>
+
+      @if (selectedProduct(); as product) {
+        <section class="edit-form-section">
+          <h3>Edit product</h3>
+          <form #editForm="ngForm" (ngSubmit)="updateProduct()">
+            <div class="mb-3">
+              <label class="form-label">Product Name</label>
+              <input
+                type="text"
+                class="form-control"
+                name="name"
+                [(ngModel)]="product.name"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Description</label>
+              <textarea
+                class="form-control"
+                name="description"
+                [(ngModel)]="product.description"
+                rows="3"
+                required
+              ></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Category</label>
+              <select
+                class="form-select"
+                name="category"
+                [(ngModel)]="product.category"
+                required
+              >
+                @for (category of categories; track category.id) {
+                  <option [value]="category.id">{{ category.name }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Price (₹)</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="price"
+                  [(ngModel)]="product.price"
+                  min="0.01"
+                  step="0.01"
+                  required
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Stock Quantity</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="stock"
+                  [(ngModel)]="product.stock"
+                  min="0"
+                  step="1"
+                  required
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Discount (%)</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="discount"
+                  [(ngModel)]="product.discount"
+                  min="0"
+                  max="100"
+                  step="0.01"
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Color</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="color"
+                  [(ngModel)]="product.color"
+                  placeholder="Enter product color"
+                />
+              </div>
+            </div>
+
+            <div class="edit-image-field">
+              <label class="form-label">Product Image</label>
+              <label class="edit-image-upload">
+                <img
+                  [src]="imagePreview() || getImageUrl(product.image)"
+                  [alt]="product.name"
+                />
+                <span>
+                  <i class="bi bi-camera" aria-hidden="true"></i>
+                  Change image
+                </span>
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  (change)="onImageSelected($event)"
+                  hidden
+                />
+              </label>
+            </div>
+
+            @if (message()) {
+              <div class="alert alert-info mt-3 mb-0">{{ message() }}</div>
+            }
+
+            <button
+              type="submit"
+              class="btn btn-primary w-100 mt-3"
+              [disabled]="editForm.invalid || loading()"
+            >
+              @if (loading()) {
+                <span class="spinner-border spinner-border-sm me-2"></span>
+                Updating...
+              } @else {
+                Update Product
+              }
+            </button>
+          </form>
+        </section>
+      } @else {
+        <section class="edit-form-empty">
+          <i class="bi bi-pencil-square"></i>
+          <p>Select a product to edit.</p>
+        </section>
+      }
+    </div>
+  </aside>
+}

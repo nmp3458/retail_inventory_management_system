@@ -26,4 +26,11 @@ export class HttpService {
       body
     );
   }
+
+  put<T>(endpoint: string, body: any): Observable<T> {
+    return this.http.put<T>(
+      `${this.baseUrl}/${endpoint}`,
+      body
+    );
+  }
 }

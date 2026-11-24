@@ -119,4 +119,57 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Update product
+router.put('/:id', upload.single('image'), async (req, res) => {
+  try {
+    const { name, category, price, stock, description, discount, color } = req.body;
+
+    if (!name || !category || price === undefined || stock === undefined || !description) {
+      return res.status(400).json({
+        message: 'Please provide all required product fields'
+      });
+    }
+
+    const discountValue = discount === undefined || discount === ''
+      ? 0
+      : Number(discount);
+
+    if (!Number.isFinite(discountValue) || discountValue < 0 || discountValue > 100) {
+      return res.status(400).json({
+        message: 'Discount must be between 0 and 100'
+      });
+    }
+
+    const existingProduct = await Product.findById(req.params.id);
+    if (!existingProduct) {
+      return res.status(404).json({
+        message: 'Product not found'
+      });
+    }
+
+    existingProduct.name = name;
+    existingProduct.category = category;
+    existingProduct.price = Number(price);
+    existingProduct.stock = Number(stock);
+    existingProduct.description = description;
+    existingProduct.discount = discountValue;
+    existingProduct.color = typeof color === 'string' ? color.trim() : '';
+    if (req.file) {
+      existingProduct.image = `/uploads/products/${req.file.filename}`;
+    }
+
+    await existingProduct.save();
+
+    return res.status(200).json({
+      message: 'Product updated successfully',
+      data: existingProduct
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: 'Unable to update product'
+    });
+  }
+});
+
 export default router;

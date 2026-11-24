@@ -11,6 +11,8 @@ export class AppStateService {
     category: ''
   });
   readonly addProductOpen = signal(false);
+  readonly editProductOpen = signal(false);
+  readonly productRevision = signal(0);
   readonly cartOpen = signal(false);
   readonly cartItems = signal<CartItem[]>([]);
   readonly cartTotalQuantity = computed(() =>
@@ -40,6 +42,18 @@ export class AppStateService {
 
   closeAddProduct(): void {
     this.addProductOpen.set(false);
+  }
+
+  openEditProduct(): void {
+    this.editProductOpen.set(true);
+  }
+
+  closeEditProduct(): void {
+    this.editProductOpen.set(false);
+  }
+
+  notifyProductUpdated(): void {
+    this.productRevision.update(revision => revision + 1);
   }
 
   openCart(): void {

@@ -41,10 +41,16 @@ export class Header {
     this.appState.openAddProduct();
   }
 
+  openEditProduct(profileMenu: HTMLDetailsElement): void {
+    profileMenu.open = false;
+    this.appState.openEditProduct();
+  }
+
   logout() {
     this.appState.clearCart();
     this.appState.clearFilters();
     this.appState.closeAddProduct();
+    this.appState.closeEditProduct();
     this.appState.closeCart();
     this.router.navigate(['/Login']);
   }
