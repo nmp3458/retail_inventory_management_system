@@ -47,14 +47,14 @@
     <button
       type="button"
       class="cart-link"
-      [attr.aria-label]="'Shopping cart, ' + cartStore.totalQuantity() + ' items'"
-      [attr.aria-expanded]="cartStore.isOpen()"
-      (click)="cartStore.open()"
+      [attr.aria-label]="'Shopping cart, ' + appState.cartTotalQuantity() + ' items'"
+      [attr.aria-expanded]="appState.cartOpen()"
+      (click)="appState.openCart()"
     >
       <span class="cart-icon">
         <i class="bi bi-cart3" aria-hidden="true"></i>
-        @if (cartStore.totalQuantity()) {
-          <span class="cart-count">{{ cartStore.totalQuantity() }}</span>
+        @if (appState.cartTotalQuantity()) {
+          <span class="cart-count">{{ appState.cartTotalQuantity() }}</span>
         }
       </span>
       <span class="cart-label">Cart</span>
@@ -62,7 +62,7 @@
 
     <div class="profile-divider" aria-hidden="true"></div>
 
-    <details class="profile">
+    <details class="profile" #profileMenu>
       <summary class="profile-trigger" aria-label="Open profile menu">
         <i class="bi bi-person-circle" aria-hidden="true"></i>
       </summary>
@@ -75,6 +75,15 @@
             <small>Store account</small>
           </div>
         </div>
+        <button
+          type="button"
+          class="profile-menu-item"
+          (click)="openAddProduct(profileMenu)"
+        >
+          <i class="bi bi-plus-square" aria-hidden="true"></i>
+          <span>Add Product</span>
+        </button>
+        <div class="profile-menu-divider"></div>
         <button type="button" class="logout-button" (click)="logout()">
           <i class="bi bi-box-arrow-right" aria-hidden="true"></i>
           <span>Log out</span>

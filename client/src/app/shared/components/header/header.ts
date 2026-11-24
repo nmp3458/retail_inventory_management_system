@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FilterService } from '../../../services/filter.service';
-import { CartStore } from '../../../services/cart.store';
+import { AppStateService } from '../../../services/app-state.service';
 import { PRODUCT_CATEGORIES } from '../../../constants/product.constants';
 
 @Component({
@@ -20,8 +19,7 @@ export class Header {
   category = '';
 
   constructor(
-    private filterService: FilterService,
-    readonly cartStore: CartStore,
+    readonly appState: AppStateService,
     private router: Router
   ) { }
 
@@ -32,15 +30,22 @@ export class Header {
 
   // Send filter data to dashboard
   searchProducts() {
-    this.filterService.setFilters({
+    this.appState.setFilters({
       search: this.searchText,
       category: this.category
     });
   }
 
+  openAddProduct(profileMenu: HTMLDetailsElement): void {
+    profileMenu.open = false;
+    this.appState.openAddProduct();
+  }
+
   logout() {
-    this.cartStore.clear();
-    this.filterService.clearFilters();
+    this.appState.clearCart();
+    this.appState.clearFilters();
+    this.appState.closeAddProduct();
+    this.appState.closeCart();
     this.router.navigate(['/Login']);
   }
 }

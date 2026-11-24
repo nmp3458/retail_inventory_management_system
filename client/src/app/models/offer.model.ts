@@ -1,1 +1,0 @@
-export interface Offer {id:number;title:string;description:string;discountLabel:string;code:string;validUntil:string;type:string;} export interface OfferJson {offers:Offer[];}

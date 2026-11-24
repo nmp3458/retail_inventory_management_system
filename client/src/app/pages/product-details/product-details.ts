@@ -1,22 +1,21 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, HostListener, input, output } from '@angular/core';
-import { Product } from '../../../models/product.model';
-import { getProductCategoryName } from '../../../constants/product.constants';
-import { CartStore } from '../../../services/cart.store';
+import { Product } from '../../models/product.model';
+import { getProductCategoryName } from '../../constants/product.constants';
 
 @Component({
-  selector: 'app-product-details-sidebar',
+  selector: 'app-product-details',
   standalone: true,
   imports: [DecimalPipe],
-  templateUrl: './product-details-sidebar.html',
-  styleUrl: './product-details-sidebar.scss'
+  templateUrl: './product-details.html',
+  styleUrl: './product-details.scss'
 })
-export class ProductDetailsSidebar {
+export class ProductDetails {
   product = input.required<Product>();
   imageBaseUrl = input.required<string>();
+  cartQuantity = input.required<number>();
   close = output<void>();
-
-  constructor(readonly cartStore: CartStore) {}
+  addToCart = output<Product>();
 
   getCategoryName(categoryId: string): string {
     return getProductCategoryName(categoryId);

@@ -1,6 +1,13 @@
 .sidebar {
+  position: sticky;
+  top: 0;
   width: 238px;
+  height: 100vh;
+  height: 100dvh;
   min-height: 100vh;
+  min-height: 100dvh;
+  align-self: flex-start;
+  overflow-y: auto;
   background: #191c17;
   color: #f4f1e9;
   padding: 27px 18px;

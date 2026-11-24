@@ -13,3 +13,8 @@ export interface ProductFilter {
   search: string;
   category: string;
 }
+
+export interface CartItem {
+  product: Product;
+  quantity: number;
+}
