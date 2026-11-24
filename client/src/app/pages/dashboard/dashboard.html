@@ -33,6 +33,16 @@
 
               <small class="text-muted"> Qty: {{ product.stock }} </small>
             </div>
+            @if (product.discount || product.color) {
+              <div class="d-flex flex-wrap gap-2 mt-2">
+                @if (product.discount) {
+                  <span class="badge text-bg-danger">{{ product.discount }}% off</span>
+                }
+                @if (product.color) {
+                  <small class="text-muted">Color: {{ product.color }}</small>
+                }
+              </div>
+            }
           </div>
 
           <div class="card-footer product-actions">

@@ -23,6 +23,16 @@
 
   <div class="product-details-content">
     <h5 class="fw-bold">₹{{ product().price | number }}</h5>
+    @if (product().discount || product().color) {
+      <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+        @if (product().discount) {
+          <span class="badge text-bg-danger">{{ product().discount }}% off</span>
+        }
+        @if (product().color) {
+          <span class="text-muted">Color: {{ product().color }}</span>
+        }
+      </div>
+    }
     <p class="product-description">
       {{product().description || 'No description available.' }}
     </p>
@@ -32,11 +42,13 @@
     </div>
     <button
       type="button"
-      class="btn btn-primary w-100 mt-4"
+      class="cart-action mt-4"
       [disabled]="product().stock < 1 || cartQuantity() >= product().stock"
       (click)="addToCart.emit(product())"
     >
-      Add to Cart
+      <i class="bi bi-bag-plus" aria-hidden="true"></i>
+      <span>Add to Cart</span>
+      <i class="bi bi-arrow-right cart-action-arrow" aria-hidden="true"></i>
     </button>
     @if (cartQuantity()) {
       <small class="text-muted d-block text-center mt-2">

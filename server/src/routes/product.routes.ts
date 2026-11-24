@@ -42,11 +42,21 @@ const upload = multer({
 // Add product
 router.post('/', upload.single('image'), async (req, res) => {
   try {
-    const { name, category, price, stock, description } = req.body;
+    const { name, category, price, stock, description, discount, color } = req.body;
 
     if (!name || !category || price === undefined || stock === undefined || !description) {
       return res.status(400).json({
         message: 'Please provide all required product fields'
+      });
+    }
+
+    const discountValue = discount === undefined || discount === ''
+      ? 0
+      : Number(discount);
+
+    if (!Number.isFinite(discountValue) || discountValue < 0 || discountValue > 100) {
+      return res.status(400).json({
+        message: 'Discount must be between 0 and 100'
       });
     }
 
@@ -56,6 +66,8 @@ router.post('/', upload.single('image'), async (req, res) => {
       price: Number(price),
       stock: Number(stock),
       description,
+      discount: discountValue,
+      color: typeof color === 'string' ? color.trim() : '',
       image: req.file
         ? `/uploads/products/${req.file.filename}`
         : ''

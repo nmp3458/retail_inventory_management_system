@@ -19,7 +19,9 @@ export class AddProduct {
     description: '',
     category: '',
     price: 0,
-    stock: 0
+    stock: 0,
+    discount: 0,
+    color: ''
   };
 
   selectedImage: File | null = null;
@@ -78,6 +80,8 @@ export class AddProduct {
     formData.append('category', this.product.category);
     formData.append('price', String(this.product.price));
     formData.append('stock', String(this.product.stock));
+    formData.append('discount', String(this.product.discount));
+    formData.append('color', this.product.color);
     formData.append('image', this.selectedImage);
 
     this.loading.set(true);
@@ -95,7 +99,9 @@ export class AddProduct {
           description: '',
           category: '',
           price: 0,
-          stock: 0
+          stock: 0,
+          discount: 0,
+          color: ''
         };
 
         this.selectedImage = null;
