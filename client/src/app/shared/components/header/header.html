@@ -4,12 +4,11 @@
   <div class="container">
     <div class="search-container">
       <!-- Category filter inside search -->
-      <select class="category-select" [(ngModel)]="category">
+      <select class="category-select" [(ngModel)]="category" (change)="onCategoryChange(category)">
         <option value="">All Categories</option>
-        <option value="Clothing">Clothing</option>
-        <option value="Shoes">Shoes</option>
-        <option value="Watches">Watches</option>
-        <option value="Accessories">Accessories</option>
+        @for (categoryOption of categories; track categoryOption.id) {
+          <option [value]="categoryOption.id">{{ categoryOption.name }}</option>
+        }
       </select>
 
       <!-- Search input -->

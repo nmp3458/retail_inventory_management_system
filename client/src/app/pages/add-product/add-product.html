@@ -1,161 +1,177 @@
-<div class="container py-4">
-  <form #productForm="ngForm" (ngSubmit)="addProduct()">
-    <div class="row g-4">
-      <!-- Product details -->
-      <div class="col-lg-8">
-        <div class="card border-0 shadow-sm rounded-3">
-          <div class="card-body p-2">
-            <div class="mb-3">
-              <label class="form-label">Product Name</label>
-              <input
-                type="text"
-                class="form-control"
-                name="name"
-                [(ngModel)]="product.name"
-                placeholder="Enter product name"
-                required
-                #name="ngModel"
-              />
-              @if (name.invalid && name.touched) {
-                <small class="text-danger">Product name is required.</small>
-              }
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Product Description</label>
-              <textarea
-                class="form-control"
-                name="description"
-                [(ngModel)]="product.description"
-                placeholder="Enter product description"
-                rows="3"
-              ></textarea>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Category</label>
-              <select
-                class="form-select"
-                name="category"
-                [(ngModel)]="product.category"
-                required
-                #category="ngModel"
-              >
-                <option value="">Select category</option>
-                @for (item of categories; track item) {
-                  <option [value]="item">{{ item }}</option>
-                }
-              </select>
-              @if (category.invalid && category.touched) {
-                <small class="text-danger">Please select a category.</small>
-              }
-            </div>
-
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <label class="form-label">Price (₹)</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  name="price"
-                  [(ngModel)]="product.price"
-                  min="0.01"
-                  step="0.01"
-                  required
-                  #price="ngModel"
-                />
-                @if (price.invalid && price.touched) {
-                  <small class="text-danger">Enter a valid price.</small>
-                }
-              </div>
-
-              <div class="col-md-6 mb-3">
-                <label class="form-label">Stock Quantity</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  name="stock"
-                  [(ngModel)]="product.stock"
-                  min="0"
-                  step="1"
-                  required
-                  #stock="ngModel"
-                />
-                @if (stock.invalid && stock.touched) {
-                  <small class="text-danger">Enter a valid stock quantity.</small>
-                }
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Image upload -->
-      <div class="col-lg-4">
-        <div class="card border-0 shadow-sm rounded-3">
-          <div class="card-body p-4">
-            <h5 class="fw-semibold mb-3">Product Image</h5>
-
-            <label class="image-upload w-100">
-              @if (imagePreview()) {
-                <img [src]="imagePreview()" class="img-preview" alt="Product preview" />
-              } @else {
-                <div class="upload-placeholder">
-                  <i class="bi bi-cloud-arrow-up fs-1 text-primary"></i>
-                  <p class="fw-semibold mt-2 mb-1">Upload product image</p>
-                  <small class="text-muted">PNG, JPG up to 5 MB</small>
-                </div>
-              }
-
-              <input
-                type="file"
-                accept="image/png,image/jpeg,image/webp"
-                (change)="onImageSelected($event)"
-                hidden
-              />
-            </label>
-
-            @if (selectedImage) {
-              <p class="small text-muted mt-2 mb-0">
-                {{ selectedImage.name }}
-              </p>
-            }
-
-            @if (message()) {
-              <div class="alert alert-info mt-3 mb-0">
-                {{ message() }}
-              </div>
-            }
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Actions -->
-    <div class="d-flex justify-content-end gap-2 mt-4">
+<div class="custom-modal-backdrop" (click)="close.emit()">
+  <div class="custom-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header border-bottom p-3">
+      <h5 class="modal-title fw-bold mb-0">Add New Product</h5>
       <button
         type="button"
-        class="btn btn-light border px-4"
-        (click)="
-          productForm.resetForm(); selectedImage = null; imagePreview.set(null); message.set('')
-        "
-      >
-        Reset
-      </button>
-
-      <button
-        type="submit"
-        class="btn btn-primary px-4"
-        [disabled]="productForm.invalid || !selectedImage || loading()"
-      >
-        @if (loading()) {
-          <span class="spinner-border spinner-border-sm me-2"></span>
-          Saving...
-        } @else {
-          <i class="bi bi-plus-lg me-1"></i>
-          Add Product
-        }
-      </button>
+        class="btn-close"
+        aria-label="Close"
+        (click)="close.emit()"
+      ></button>
     </div>
-  </form>
+
+    <div class="modal-body p-3">
+      <div class="container py-4">
+        <form #productForm="ngForm" (ngSubmit)="addProduct()">
+          <div class="row g-4">
+            <!-- Product details -->
+            <div class="col-lg-8">
+              <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-body p-2">
+                  <div class="mb-3">
+                    <label class="form-label">Product Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="name"
+                      [(ngModel)]="product.name"
+                      placeholder="Enter product name"
+                      required
+                      #name="ngModel"
+                    />
+                    @if (name.invalid && name.touched) {
+                      <small class="text-danger">Product name is required.</small>
+                    }
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Product Description</label>
+                    <textarea
+                      class="form-control"
+                      name="description"
+                      [(ngModel)]="product.description"
+                      placeholder="Enter product description"
+                      rows="3"
+                    ></textarea>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Category</label>
+                    <select
+                      class="form-select"
+                      name="category"
+                      [(ngModel)]="product.category"
+                      required
+                      #category="ngModel"
+                    >
+                      <option value="">Select category</option>
+                      @for (categoryOption of categories; track categoryOption.id) {
+                        <option [value]="categoryOption.id">{{ categoryOption.name }}</option>
+                      }
+                    </select>
+                    @if (category.invalid && category.touched) {
+                      <small class="text-danger">Please select a category.</small>
+                    }
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Price (₹)</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        name="price"
+                        [(ngModel)]="product.price"
+                        min="0.01"
+                        step="0.01"
+                        required
+                        #price="ngModel"
+                      />
+                      @if (price.invalid && price.touched) {
+                        <small class="text-danger">Enter a valid price.</small>
+                      }
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Stock Quantity</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        name="stock"
+                        [(ngModel)]="product.stock"
+                        min="0"
+                        step="1"
+                        required
+                        #stock="ngModel"
+                      />
+                      @if (stock.invalid && stock.touched) {
+                        <small class="text-danger">Enter a valid stock quantity.</small>
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Image upload -->
+            <div class="col-lg-4">
+              <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-body p-4">
+                  <h5 class="fw-semibold mb-3">Product Image</h5>
+
+                  <label class="image-upload w-100">
+                    @if (imagePreview()) {
+                      <img [src]="imagePreview()" class="img-preview" alt="Product preview" />
+                    } @else {
+                      <div class="upload-placeholder">
+                        <i class="bi bi-cloud-arrow-up fs-1 text-primary"></i>
+                        <p class="fw-semibold mt-2 mb-1">Upload product image</p>
+                        <small class="text-muted">PNG, JPG up to 5 MB</small>
+                      </div>
+                    }
+
+                    <input
+                      type="file"
+                      accept="image/png,image/jpeg,image/webp"
+                      (change)="onImageSelected($event)"
+                      hidden
+                    />
+                  </label>
+
+                  @if (selectedImage) {
+                    <p class="small text-muted mt-2 mb-0">
+                      {{ selectedImage.name }}
+                    </p>
+                  }
+
+                  @if (message()) {
+                    <div class="alert alert-info mt-3 mb-0">
+                      {{ message() }}
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="d-flex justify-content-end gap-2 mt-4">
+            <button
+              type="button"
+              class="btn btn-light border px-4"
+              (click)="
+                productForm.resetForm(); selectedImage = null; imagePreview.set(null); message.set('')
+              "
+            >
+              Reset
+            </button>
+
+            <button
+              type="submit"
+              class="btn btn-primary px-4"
+              [disabled]="productForm.invalid || !selectedImage || loading()"
+            >
+              @if (loading()) {
+                <span class="spinner-border spinner-border-sm me-2"></span>
+                Saving...
+              } @else {
+                <i class="bi bi-plus-lg me-1"></i>
+                Add Product
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

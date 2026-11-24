@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpService } from '../../services/http.service';
 import { Product } from '../../models/product.model';
+import { PRODUCT_CATEGORIES } from '../../constants/product.constants';
 
 @Component({
   selector: 'app-add-product',
@@ -26,14 +27,10 @@ export class AddProduct {
   loading = signal(false);
   message = signal('');
 
-  categories = [
-    'Clothing',
-    'Accessories',
-    'Footwear',
-    'Other'
-  ];
+  categories = PRODUCT_CATEGORIES;
 
   productAdded = output<void>();
+  close = output<void>();
 
   constructor(private httpService: HttpService) {}
 

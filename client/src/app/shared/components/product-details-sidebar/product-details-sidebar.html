@@ -1,0 +1,42 @@
+<div
+  class="product-details-backdrop"
+  aria-hidden="true"
+  (click)="close.emit()"
+></div>
+
+<aside
+  class="product-details-sidebar"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="product-details-title"
+>
+  <div class="product-details-header">
+    <div>
+      <small class="text-muted">{{ getCategoryName(product().category) }}</small>
+      <h4 id="product-details-title" class="fw-bold mb-0">{{ product().name }}</h4>
+    </div>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close product details"
+      (click)="close.emit()"
+    ></button>
+  </div>
+
+  <img
+    class="product-details-image"
+    [src]="getImageUrl(product().image)"
+    [alt]="product().name"
+  />
+
+  <div class="product-details-content">
+    <h5 class="fw-bold">₹{{ product().price | number }}</h5>
+    <p class="product-description">
+      {{ product().description || 'No description available.' }}
+    </p>
+    <div class="d-flex justify-content-between align-items-center border-top pt-3">
+      <span class="text-muted">Available stock</span>
+      <span class="fw-semibold">{{ product().stock }}</span>
+    </div>
+  </div>
+</aside>

@@ -19,7 +19,10 @@
   <div class="row g-4">
     @for (product of productsList(); track product._id) {
       <div class="col-6 col-md-4 col-lg-3">
-        <div class="card product-card h-100 border-0 shadow-sm">
+        <div
+          class="card product-card h-100 border-0 shadow-sm"
+          (click)="openProductDetails(product)"
+        >
           <!-- Product Image -->
           <div class="product-image">
             <img [src]="getImageUrl(product.image)" [alt]="product.name" class="card-img-top" />
@@ -34,7 +37,7 @@
           <!-- Product Details -->
           <div class="card-body">
             <small class="text-muted">
-              {{ product.category }}
+              {{ getCategoryName(product.category) }}
             </small>
 
             <h6 class="fw-bold mt-1">
@@ -50,7 +53,12 @@
 
           <!-- Footer -->
           <div class="card-footer bg-white border-0 pb-3">
-            <button class="btn btn-outline-dark btn-sm w-100">View Details</button>
+            <button
+              class="btn btn-outline-dark btn-sm w-100"
+              (click)="$event.stopPropagation(); openProductDetails(product)"
+            >
+              View Details
+            </button>
           </div>
         </div>
       </div>
@@ -63,18 +71,17 @@
   </div>
 </div>
 
+@if (selectedProduct(); as product) {
+  <app-product-details-sidebar
+    [product]="product"
+    [imageBaseUrl]="imageBaseUrl"
+    (close)="closeProductDetails()"
+  />
+}
+
 @if (showAddProduct()) {
-  <div class="custom-modal-backdrop" (click)="closeAddProduct()">
-    <div class="custom-modal" (click)="$event.stopPropagation()">
-      <div class="modal-header border-bottom p-3">
-        <h5 class="modal-title fw-bold mb-0">Add New Product</h5>
-
-        <button type="button" class="btn-close" (click)="closeAddProduct()"></button>
-      </div>
-
-      <div class="modal-body p-3">
-        <app-add-product (productAdded)="closeAddProduct()"/>
-      </div>
-    </div>
-  </div>
+  <app-add-product
+    (close)="closeAddProduct()"
+    (productAdded)="closeAddProduct()"
+  />
 }

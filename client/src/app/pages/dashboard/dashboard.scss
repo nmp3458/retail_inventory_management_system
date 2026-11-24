@@ -34,32 +34,3 @@
   padding: 16px;
 }
 
-.custom-modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  z-index: 1050;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 20px;
-}
-
-.custom-modal {
-  background: #fff;
-  width: 100%;
-  max-width: 900px;
-  max-height: 90vh;
-  border-radius: 12px;
-  overflow: hidden;
-
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-}
-
-.modal-body {
-  overflow-y: auto;
-}

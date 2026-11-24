@@ -79,10 +79,13 @@ router.post('/', upload.single('image'), async (req, res) => {
   }
 });
 
-// Get all products
-router.get('/', async (_req, res) => {
+// Get all products, optionally filtered by category
+router.get('/', async (req, res) => {
   try {
-    const products = await Product.find().sort({ createdAt: -1 });
+    const category = typeof req.query.category === 'string'
+      ? req.query.category
+      : undefined;
+    const products = await Product.find(category ? { category } : {}).sort({ createdAt: -1 });
 
     return res.status(200).json({
       data: products
