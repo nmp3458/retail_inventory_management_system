@@ -17,12 +17,12 @@
 
   <!-- Product Grid -->
   <div class="row g-4">
-    @for (product of productsList(); track product.id) {
+    @for (product of productsList(); track product._id) {
       <div class="col-6 col-md-4 col-lg-3">
         <div class="card product-card h-100 border-0 shadow-sm">
           <!-- Product Image -->
           <div class="product-image">
-            <img [src]="product.image" [alt]="product.name" class="card-img-top" />
+            <img [src]="getImageUrl(product.image)" [alt]="product.name" class="card-img-top" />
 
             @if (product.stock > 10) {
               <span class="badge bg-success stock-badge"> In Stock </span>

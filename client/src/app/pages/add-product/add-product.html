@@ -1,27 +1,10 @@
-
 <div class="container py-4">
-
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-      <h3 class="fw-bold mb-1">Add New Product</h3>
-      <p class="text-muted mb-0">Add product details to your inventory</p>
-    </div>
-    <a routerLink="/dashboard" class="btn btn-outline-secondary">
-      Cancel
-    </a>
-  </div>
-
   <form #productForm="ngForm" (ngSubmit)="addProduct()">
-
     <div class="row g-4">
-
       <!-- Product details -->
       <div class="col-lg-8">
         <div class="card border-0 shadow-sm rounded-3">
-          <div class="card-body p-4">
-
-            <h5 class="fw-semibold mb-4">Product Information</h5>
-
+          <div class="card-body p-2">
             <div class="mb-3">
               <label class="form-label">Product Name</label>
               <input
@@ -36,6 +19,17 @@
               @if (name.invalid && name.touched) {
                 <small class="text-danger">Product name is required.</small>
               }
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Product Description</label>
+              <textarea
+                class="form-control"
+                name="description"
+                [(ngModel)]="product.description"
+                placeholder="Enter product description"
+                rows="3"
+              ></textarea>
             </div>
 
             <div class="mb-3">
@@ -92,7 +86,6 @@
                 }
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -101,17 +94,11 @@
       <div class="col-lg-4">
         <div class="card border-0 shadow-sm rounded-3">
           <div class="card-body p-4">
-
             <h5 class="fw-semibold mb-3">Product Image</h5>
 
             <label class="image-upload w-100">
-
               @if (imagePreview()) {
-                <img
-                  [src]="imagePreview()"
-                  class="img-preview"
-                  alt="Product preview"
-                />
+                <img [src]="imagePreview()" class="img-preview" alt="Product preview" />
               } @else {
                 <div class="upload-placeholder">
                   <i class="bi bi-cloud-arrow-up fs-1 text-primary"></i>
@@ -139,11 +126,9 @@
                 {{ message() }}
               </div>
             }
-
           </div>
         </div>
       </div>
-
     </div>
 
     <!-- Actions -->
@@ -151,7 +136,9 @@
       <button
         type="button"
         class="btn btn-light border px-4"
-        (click)="productForm.resetForm(); selectedImage = null; imagePreview.set(null); message.set('')"
+        (click)="
+          productForm.resetForm(); selectedImage = null; imagePreview.set(null); message.set('')
+        "
       >
         Reset
       </button>
@@ -170,6 +157,5 @@
         }
       </button>
     </div>
-
   </form>
 </div>

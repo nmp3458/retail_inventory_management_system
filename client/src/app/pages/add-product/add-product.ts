@@ -8,13 +8,14 @@ import { Product } from '../../models/product.model';
   selector: 'app-add-product',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './add-product.component.html',
-  styleUrl: './add-product.component.scss'
+  templateUrl: './add-product.html',
+  styleUrl: './add-product.scss'
 })
-export class AddProductComponent {
+export class AddProduct {
 
   product = {
     name: '',
+    description: '',
     category: '',
     price: 0,
     stock: 0
@@ -27,8 +28,6 @@ export class AddProductComponent {
 
   categories = [
     'Clothing',
-    'Electronics',
-    'Furniture',
     'Accessories',
     'Footwear',
     'Other'
@@ -78,6 +77,7 @@ export class AddProductComponent {
     const formData = new FormData();
 
     formData.append('name', this.product.name);
+    formData.append('description', this.product.description);
     formData.append('category', this.product.category);
     formData.append('price', String(this.product.price));
     formData.append('stock', String(this.product.stock));
@@ -95,6 +95,7 @@ export class AddProductComponent {
 
         this.product = {
           name: '',
+          description: '',
           category: '',
           price: 0,
           stock: 0
