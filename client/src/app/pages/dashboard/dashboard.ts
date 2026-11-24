@@ -34,17 +34,19 @@ export class Dashboard implements OnInit {
 
       console.log('Filter changed:', filters);
 
-      this.getProducts(filters.category, filters.search);
+      this.getProducts(filters.category, filters.search, filters.discount, filters.color);
     });
   }
 
   ngOnInit() {
   }
 
-  getProducts(category = '', search = '') {
+  getProducts(category = '', search = '', discount = '', color = '') {
     const params = new URLSearchParams();
     if (category) params.set('category', category);
     if (search.trim()) params.set('search', search.trim());
+    if (discount) params.set('discount', discount);
+    if (color.trim()) params.set('color', color.trim());
 
     const query = params.toString();
     const endpoint = query ? `products?${query}` : 'products';
@@ -107,7 +109,7 @@ export class Dashboard implements OnInit {
   closeAddProduct() {
     this.appState.closeAddProduct();
     const filters = this.appState.filters();
-    this.getProducts(filters.category, filters.search);
+    this.getProducts(filters.category, filters.search, filters.discount, filters.color);
   }
 
   private isSameProduct(left: Product, right: Product): boolean {

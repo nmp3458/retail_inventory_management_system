@@ -96,9 +96,18 @@ router.get('/', async (req, res) => {
     const search = typeof req.query.search === 'string'
       ? req.query.search.trim()
       : '';
+    const discount = typeof req.query.discount === 'string'
+      ? Number(req.query.discount)
+      : 0;
+    const color = typeof req.query.color === 'string'
+      ? req.query.color.trim()
+      : '';
     const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const escapedColor = color.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const filter = {
       ...(category ? { category } : {}),
+      ...(Number.isFinite(discount) && discount > 0 ? { discount: { $gte: discount } } : {}),
+      ...(color ? { color: { $regex: escapedColor, $options: 'i' } } : {}),
       ...(search ? {
         $or: [
           { name: { $regex: escapedSearch, $options: 'i' } },

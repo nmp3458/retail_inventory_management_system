@@ -17,6 +17,8 @@ export class Header {
 
   searchText = '';
   category = '';
+  discount = '';
+  color = '';
 
   constructor(
     readonly appState: AppStateService,
@@ -28,11 +30,22 @@ export class Header {
     this.searchProducts();
   }
 
+  onDiscountChange(discount: string) {
+    this.discount = discount;
+    this.searchProducts();
+  }
+
+  onColorChange() {
+    this.searchProducts();
+  }
+
   // Send filter data to dashboard
   searchProducts() {
     this.appState.setFilters({
       search: this.searchText,
-      category: this.category
+      category: this.category,
+      discount: this.discount,
+      color: this.color
     });
   }
 

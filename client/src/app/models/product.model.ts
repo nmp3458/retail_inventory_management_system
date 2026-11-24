@@ -14,6 +14,8 @@ export interface Product {
 export interface ProductFilter {
   search: string;
   category: string;
+  discount: string;
+  color: string;
 }
 
 export interface CartItem {

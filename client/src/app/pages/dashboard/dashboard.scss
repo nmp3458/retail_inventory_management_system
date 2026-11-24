@@ -19,8 +19,7 @@
 .product-image img {
   display: block;
   width: 100%;
-  aspect-ratio: 3 / 2;
-  object-fit: cover;
+  height: 400px;
   transition: transform 0.3s ease;
 }
 

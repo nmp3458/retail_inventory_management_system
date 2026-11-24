@@ -8,7 +8,9 @@ import { CartItem, ProductFilter } from '../models/product.model';
 export class AppStateService {
   readonly filters = signal<ProductFilter>({
     search: '',
-    category: ''
+    category: '',
+    discount: '',
+    color: ''
   });
   readonly addProductOpen = signal(false);
   readonly editProductOpen = signal(false);
@@ -32,7 +34,9 @@ export class AppStateService {
   clearFilters(): void {
     this.filters.set({
       search: '',
-      category: ''
+      category: '',
+      discount: '',
+      color: ''
     });
   }
 

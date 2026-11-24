@@ -5,22 +5,6 @@
   </div>
 
   <div class="search-container" role="search">
-    <label class="category-filter">
-      <span class="visually-hidden">Filter by category</span>
-      <select
-        class="category-select"
-        [(ngModel)]="category"
-        (change)="onCategoryChange(category)"
-        aria-label="Filter by category"
-      >
-        <option value="">All Categories</option>
-        @for (categoryOption of categories; track categoryOption.id) {
-          <option [value]="categoryOption.id">{{ categoryOption.name }}</option>
-        }
-      </select>
-      <i class="bi bi-chevron-down" aria-hidden="true"></i>
-    </label>
-
     <label class="search-field">
       <i class="bi bi-search" aria-hidden="true"></i>
       <span class="visually-hidden">Search products</span>
@@ -41,6 +25,50 @@
     >
       Search
     </button>
+
+    <label class="category-filter">
+      <span class="visually-hidden">Filter by category</span>
+      <select
+        class="category-select"
+        [(ngModel)]="category"
+        (change)="onCategoryChange(category)"
+        aria-label="Filter by category"
+      >
+        <option value="">All Categories</option>
+        @for (categoryOption of categories; track categoryOption.id) {
+          <option [value]="categoryOption.id">{{ categoryOption.name }}</option>
+        }
+      </select>
+      <i class="bi bi-chevron-down" aria-hidden="true"></i>
+    </label>
+
+    <label class="discount-filter">
+      <span class="visually-hidden">Filter by discount</span>
+      <select
+        class="discount-select"
+        [(ngModel)]="discount"
+        (change)="onDiscountChange(discount)"
+        aria-label="Filter by discount"
+      >
+        <option value="">Any Discount</option>
+        <option value="5">5% or more</option>
+        <option value="10">10% or more</option>
+        <option value="25">25% or more</option>
+        <option value="50">50% or more</option>
+      </select>
+      <i class="bi bi-chevron-down" aria-hidden="true"></i>
+    </label>
+
+    <label class="color-filter">
+      <span class="visually-hidden">Filter by color</span>
+      <input
+        type="search"
+        class="color-input"
+        placeholder="Color"
+        [(ngModel)]="color"
+        (keyup.enter)="onColorChange()"
+      />
+    </label>
   </div>
 
   <div class="topbar-actions">
