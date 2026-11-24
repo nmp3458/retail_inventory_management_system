@@ -1,1 +1,14 @@
-export interface Product {id:number;name:string;sku:string;category:string;price:number;stock:number;status:'In stock'|'Low stock'|'Out of stock';image:string;featured:boolean;} export interface ProductJson {products:Product[];}
+export interface Product {
+    id?: number;
+    name: string;
+    category: string;
+    price: number;
+    stock: number;
+    image: string;
+}
+
+
+export interface ProductFilter {
+  search: string;
+  category: string;
+}

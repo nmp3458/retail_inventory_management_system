@@ -1,14 +1,22 @@
 import { Routes } from '@angular/router';
-import { LayoutComponent } from './pages/layout/layout.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: LayoutComponent,
-    children: [
-      { path: '', component: DashboardComponent },
-    ]
+    redirectTo: 'Login',
+    pathMatch: 'full'
   },
-  { path: '**', redirectTo: '' }
+  {
+    path: 'Login',
+    loadComponent: () =>
+      import('./pages/login/login')
+        .then(m => m.Login)
+  },
+  {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./shared/components/main/main')
+        .then(m => m.Main)
+  },
+  { path: '**', redirectTo: 'dashboard' }
 ];

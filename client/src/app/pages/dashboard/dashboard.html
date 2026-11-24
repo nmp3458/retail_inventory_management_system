@@ -1,3 +1,6 @@
+
+
+
 <div class="container-fluid py-4">
   <!-- Header -->
   <div class="d-flex justify-content-between align-items-center mb-4">
@@ -6,37 +9,15 @@
       <p class="text-muted mb-0">Manage your boutique inventory</p>
     </div>
 
-    <button class="btn btn-dark">+ Add Product</button>
-  </div>
-
-  <!-- Search and Filter -->
-  <div class="row g-3 mb-4">
-    <div class="col-md-5">
-      <input type="text" class="form-control" placeholder="Search products..." />
-    </div>
-
-    <div class="col-md-4 text-md-end">
-      <span class="text-muted"> {{ filteredProducts.length }} Products </span>
-    </div>
-  </div>
-
-  <!-- Categories -->
-  <div class="d-flex gap-2 flex-wrap mb-4">
-    @for (category of categories; track category) {
-      <button
-        class="btn"
-        [class.btn-dark]="selectedCategory === category"
-        [class.btn-outline-secondary]="selectedCategory !== category"
-        (click)="selectCategory(category)"
-      >
-        {{ category }}
-      </button>
-    }
+    <button class="btn btn-primary" (click)="showAddProduct.set(true)">
+      <i class="bi bi-plus-lg me-2"></i>
+      Add Product
+    </button>
   </div>
 
   <!-- Product Grid -->
   <div class="row g-4">
-    @for (product of filteredProducts; track product.id) {
+    @for (product of productsList(); track product.id) {
       <div class="col-6 col-md-4 col-lg-3">
         <div class="card product-card h-100 border-0 shadow-sm">
           <!-- Product Image -->
@@ -81,3 +62,19 @@
     }
   </div>
 </div>
+
+@if (showAddProduct()) {
+  <div class="custom-modal-backdrop" (click)="closeAddProduct()">
+    <div class="custom-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header border-bottom p-3">
+        <h5 class="modal-title fw-bold mb-0">Add New Product</h5>
+
+        <button type="button" class="btn-close" (click)="closeAddProduct()"></button>
+      </div>
+
+      <div class="modal-body p-3">
+        <app-add-product (productAdded)="closeAddProduct()"/>
+      </div>
+    </div>
+  </div>
+}

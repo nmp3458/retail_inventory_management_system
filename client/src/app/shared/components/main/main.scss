@@ -1,0 +1,16 @@
+.main-content {
+  width: 100%;
+  min-width: 0;
+  flex: 1;
+
+  .app-shell {
+    display: flex;
+    min-height: 100vh;
+  }
+  .app-column {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+}
