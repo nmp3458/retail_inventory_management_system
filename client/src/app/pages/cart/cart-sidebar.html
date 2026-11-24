@@ -1,0 +1,99 @@
+@if (cartStore.isOpen()) {
+  <div class="cart-backdrop" aria-hidden="true" (click)="cartStore.close()"></div>
+
+  <aside class="cart-sidebar" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+    <div class="cart-header">
+      <div>
+        <small class="cart-eyebrow">YOUR BAG</small>
+        <h2 id="cart-title">Shopping cart</h2>
+        <p>{{ cartStore.totalQuantity() }} items</p>
+      </div>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close cart"
+        (click)="cartStore.close()"
+      ></button>
+    </div>
+
+    @if (cartStore.items().length) {
+      <div class="cart-sidebar-body">
+        <div class="cart-items">
+          @for (item of cartStore.items(); track item.product._id) {
+            <article class="cart-item">
+              <img
+                class="cart-item-image"
+                [src]="getImageUrl(item.product.image)"
+                [alt]="item.product.name"
+              />
+
+              <div class="cart-item-info">
+                <small class="text-muted">{{ getCategoryName(item.product.category) }}</small>
+                <h3>{{ item.product.name }}</h3>
+                <span>₹{{ item.product.price | number }}</span>
+
+                <div class="quantity-control">
+                  <button
+                    type="button"
+                    aria-label="Decrease quantity"
+                    [disabled]="item.quantity <= 1"
+                    (click)="cartStore.setQuantity(item.product, item.quantity - 1)"
+                  >
+                    −
+                  </button>
+                  <span>{{ item.quantity }}</span>
+                  <button
+                    type="button"
+                    aria-label="Increase quantity"
+                    [disabled]="item.quantity >= item.product.stock"
+                    (click)="cartStore.setQuantity(item.product, item.quantity + 1)"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <div class="cart-item-actions">
+                <strong>₹{{ item.product.price * item.quantity | number }}</strong>
+                <button
+                  type="button"
+                  class="remove-item"
+                  aria-label="Remove product from cart"
+                  (click)="cartStore.removeProduct(item.product)"
+                >
+                  <i class="bi bi-trash" aria-hidden="true"></i>
+                </button>
+              </div>
+            </article>
+          }
+        </div>
+
+        <div class="cart-summary">
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span>₹{{ cartStore.subtotal() | number }}</span>
+          </div>
+          <div class="summary-row summary-total">
+            <strong>Total</strong>
+            <strong>₹{{ cartStore.subtotal() | number }}</strong>
+          </div>
+          <button type="button" class="btn btn-primary w-100" disabled>
+            Checkout
+          </button>
+          <button type="button" class="continue-shopping" (click)="cartStore.close()">
+            Continue shopping
+          </button>
+        </div>
+      </div>
+    } @else {
+      <div class="empty-cart">
+        <i class="bi bi-cart3" aria-hidden="true"></i>
+        <h3>Your cart is empty</h3>
+        <p>Add products to your cart to see them here.</p>
+        <button type="button" class="btn btn-primary" (click)="cartStore.close()">
+          Continue shopping
+        </button>
+      </div>
+    }
+  </aside>
+}

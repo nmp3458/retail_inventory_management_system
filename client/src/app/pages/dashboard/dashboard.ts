@@ -6,6 +6,7 @@ import { FilterService } from '../../services/filter.service';
 import { AddProduct } from '../add-product/add-product';
 import { ProductDetailsSidebar } from '../../shared/components/product-details-sidebar/product-details-sidebar';
 import { getProductCategoryName } from '../../constants/product.constants';
+import { CartStore } from '../../services/cart.store';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,24 +23,31 @@ export class Dashboard implements OnInit {
 
   imageBaseUrl = 'http://localhost:3000';
 
-  constructor(private httpService: HttpService, private filterService: FilterService) {
+  constructor(
+    private httpService: HttpService,
+    private filterService: FilterService,
+    readonly cartStore: CartStore
+  ) {
 
     effect(() => {
       const filters = this.filterService.filters();
 
       console.log('Filter changed:', filters);
 
-      this.getProducts(filters.category);
+      this.getProducts(filters.category, filters.search);
     });
   }
 
   ngOnInit() {
   }
 
-  getProducts(category = '') {
-    const endpoint = category
-      ? `products?category=${encodeURIComponent(category)}`
-      : 'products';
+  getProducts(category = '', search = '') {
+    const params = new URLSearchParams();
+    if (category) params.set('category', category);
+    if (search.trim()) params.set('search', search.trim());
+
+    const query = params.toString();
+    const endpoint = query ? `products?${query}` : 'products';
 
     this.httpService.get<{ data: Product[] }>(endpoint).subscribe({
       next: (data: { data: Product[] }) => {
@@ -72,6 +80,7 @@ export class Dashboard implements OnInit {
 
   closeAddProduct() {
     this.showAddProduct.set(false);
-    this.getProducts(this.filterService.filters().category);
+    const filters = this.filterService.filters();
+    this.getProducts(filters.category, filters.search);
   }
 }

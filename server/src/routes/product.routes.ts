@@ -50,10 +50,6 @@ router.post('/', upload.single('image'), async (req, res) => {
       });
     }
 
-    console.log('Received product data:', { name, category, price, stock, description });
-    console.log('Received file:', req.file);
-    console.log('File name:', req.file ? req.file.filename : 'No file uploaded');
-
     const product = await Product.create({
       name,
       category,
@@ -79,18 +75,32 @@ router.post('/', upload.single('image'), async (req, res) => {
   }
 });
 
-// Get all products, optionally filtered by category
+// Get products, optionally filtered by category and free-text search
 router.get('/', async (req, res) => {
   try {
     const category = typeof req.query.category === 'string'
       ? req.query.category
       : undefined;
-    const products = await Product.find(category ? { category } : {}).sort({ createdAt: -1 });
-
+    const search = typeof req.query.search === 'string'
+      ? req.query.search.trim()
+      : '';
+    const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const filter = {
+      ...(category ? { category } : {}),
+      ...(search ? {
+        $or: [
+          { name: { $regex: escapedSearch, $options: 'i' } },
+          { description: { $regex: escapedSearch, $options: 'i' } }
+        ]
+      } : {})
+    };
+    const products = await Product.find(filter).sort({ createdAt: -1 });
+    console.log('Fetched products:', products.length);
     return res.status(200).json({
       data: products
     });
   } catch (error) {
+    console.error(error);
     return res.status(500).json({
       message: 'Unable to fetch products'
     });

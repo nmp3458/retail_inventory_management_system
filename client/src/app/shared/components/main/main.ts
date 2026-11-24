@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { Footer } from '../footer/footer';
 import { Header } from '../header/header';
-import { Dashboard } from '../../../pages/dashboard/dashboard';
 import { Sidebar } from '../sidebar/sidebar';
+import { RouterOutlet } from '@angular/router';
+import { CartSidebar } from '../../../pages/cart/cart-sidebar';
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [Sidebar, Header, Footer, Dashboard],
+  imports: [Sidebar, Header, Footer, RouterOutlet, CartSidebar],
   templateUrl: './main.html',
   styleUrl: './main.scss'
 })

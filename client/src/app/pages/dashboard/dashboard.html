@@ -53,12 +53,21 @@
 
           <!-- Footer -->
           <div class="card-footer bg-white border-0 pb-3">
-            <button
-              class="btn btn-outline-dark btn-sm w-100"
-              (click)="$event.stopPropagation(); openProductDetails(product)"
-            >
-              View Details
-            </button>
+            <div class="d-grid gap-2">
+              <button
+                class="btn btn-outline-dark btn-sm w-100"
+                (click)="$event.stopPropagation(); openProductDetails(product)"
+              >
+                View Details
+              </button>
+              <button
+                class="btn btn-primary btn-sm w-100"
+                [disabled]="product.stock < 1 || cartStore.quantityFor(product) >= product.stock"
+                (click)="$event.stopPropagation(); cartStore.addProduct(product)"
+              >
+                Add to Cart
+              </button>
+            </div>
           </div>
         </div>
       </div>

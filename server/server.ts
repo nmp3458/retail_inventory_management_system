@@ -10,6 +10,13 @@ import productRoutes from './src/routes/product.routes.ts';
 dotenv.config();
 
 const app = express();
+const args = process.argv;
+const portIndex = args.indexOf('--port');
+
+const PORT =
+  portIndex !== -1
+    ? Number(args[portIndex + 1])
+    : Number(process.env.PORT || 3000);
 
 app.use(cors({
   origin: 'http://localhost:4200'
@@ -27,7 +34,7 @@ app.use(
 // Product APIs
 app.use('/api/products', productRoutes);
 
-const PORT = process.env.PORT || 3000;
+
 
 const startServer = async () => {
   await connectDB();

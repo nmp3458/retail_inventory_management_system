@@ -1,8 +1,4 @@
-<div
-  class="product-details-backdrop"
-  aria-hidden="true"
-  (click)="close.emit()"
-></div>
+<div class="product-details-backdrop" aria-hidden="true" (click)="close.emit()"></div>
 
 <aside
   class="product-details-sidebar"
@@ -23,20 +19,29 @@
     ></button>
   </div>
 
-  <img
-    class="product-details-image"
-    [src]="getImageUrl(product().image)"
-    [alt]="product().name"
-  />
+  <img class="product-details-image" [src]="getImageUrl(product().image)" [alt]="product().name" />
 
   <div class="product-details-content">
     <h5 class="fw-bold">₹{{ product().price | number }}</h5>
     <p class="product-description">
-      {{ product().description || 'No description available.' }}
+      {{product().description || 'No description available.' }}
     </p>
     <div class="d-flex justify-content-between align-items-center border-top pt-3">
       <span class="text-muted">Available stock</span>
       <span class="fw-semibold">{{ product().stock }}</span>
     </div>
+    <button
+      type="button"
+      class="btn btn-primary w-100 mt-4"
+      [disabled]="product().stock < 1 || cartStore.quantityFor(product()) >= product().stock"
+      (click)="cartStore.addProduct(product())"
+    >
+      Add to Cart
+    </button>
+    @if (cartStore.quantityFor(product())) {
+      <small class="text-muted d-block text-center mt-2">
+        {{ cartStore.quantityFor(product()) }} in your cart
+      </small>
+    }
   </div>
 </aside>

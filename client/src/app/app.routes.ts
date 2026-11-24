@@ -13,10 +13,18 @@ export const routes: Routes = [
         .then(m => m.Login)
   },
   {
-    path: 'dashboard',
+    path: '',
     loadComponent: () =>
       import('./shared/components/main/main')
-        .then(m => m.Main)
+        .then(m => m.Main),
+    children: [
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./pages/dashboard/dashboard')
+            .then(m => m.Dashboard)
+      },
+    ]
   },
   { path: '**', redirectTo: 'dashboard' }
 ];
