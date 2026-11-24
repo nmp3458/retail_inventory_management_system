@@ -59,3 +59,40 @@
 .modal-body {
   overflow-y: auto;
 }
+
+@media (max-width: 600px) {
+  .custom-modal-backdrop {
+    align-items: flex-end;
+    padding: 8px;
+  }
+
+  .custom-modal {
+    max-height: calc(100dvh - 16px);
+    border-radius: 14px;
+  }
+
+  .modal-body {
+    padding: 12px !important;
+  }
+
+  .modal-body .container {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+  }
+
+  .image-upload {
+    min-height: 180px;
+  }
+
+  .img-preview {
+    height: 180px;
+  }
+
+  .modal-body form > .d-flex {
+    justify-content: stretch !important;
+  }
+
+  .modal-body form > .d-flex button {
+    flex: 1;
+  }
+}

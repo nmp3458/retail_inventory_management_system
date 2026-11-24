@@ -45,6 +45,21 @@
   white-space: pre-line;
 }
 
+@media (max-width: 480px) {
+  .product-details-sidebar {
+    width: 100vw;
+  }
+
+  .product-details-header,
+  .product-details-content {
+    padding: 20px;
+  }
+
+  .product-details-image {
+    max-height: 260px;
+  }
+}
+
 @keyframes slide-in {
   from {
     transform: translateX(100%);

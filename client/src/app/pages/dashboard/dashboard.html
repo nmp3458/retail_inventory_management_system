@@ -35,23 +35,25 @@
             </div>
           </div>
 
-          <!-- Footer -->
-          <div class="card-footer bg-white border-0 pb-3">
-            <div class="d-grid gap-2">
-              <button
-                class="btn btn-outline-dark btn-sm w-100"
-                (click)="$event.stopPropagation(); openProductDetails(product)"
-              >
-                View Details
-              </button>
-              <button
-                class="btn btn-primary btn-sm w-100"
-                [disabled]="product.stock < 1 || cartQuantity(product) >= product.stock"
-                (click)="$event.stopPropagation(); addProduct(product)"
-              >
-                Add to Cart
-              </button>
-            </div>
+          <div class="card-footer product-actions">
+            <button
+              type="button"
+              class="cart-action"
+              [disabled]="product.stock < 1 || cartQuantity(product) >= product.stock"
+              (click)="$event.stopPropagation(); addProduct(product)"
+            >
+              <i class="bi bi-bag-plus" aria-hidden="true"></i>
+              <span>Add to Cart</span>
+              <i class="bi bi-arrow-right cart-action-arrow" aria-hidden="true"></i>
+            </button>
+            <button
+              type="button"
+              class="details-action"
+              (click)="$event.stopPropagation(); openProductDetails(product)"
+            >
+              <i class="bi bi-eye" aria-hidden="true"></i>
+              <span>View Details</span>
+            </button>
           </div>
         </div>
       </div>

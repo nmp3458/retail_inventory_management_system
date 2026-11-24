@@ -14,3 +14,9 @@
     flex-direction: column;
   }
 }
+
+@media (max-width: 650px) {
+  .main-content .app-column {
+    padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px));
+  }
+}
