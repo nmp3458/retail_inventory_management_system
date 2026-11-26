@@ -5,8 +5,10 @@ import path from 'path';
 import fs from 'fs';
 
 import Product from '../models/product.model.ts';
+import { requireAuth } from '../middleware/auth.middleware.ts';
 
 const router = Router();
+router.use(requireAuth);
 
 const uploadDir = path.resolve('uploads/products');
 

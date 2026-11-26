@@ -9,6 +9,9 @@
 
     <!-- Login Form -->
     <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <div class="alert alert-danger" role="alert" *ngIf="errorMessage()">
+        {{ errorMessage() }}
+      </div>
 
       <!-- Email -->
       <div class="mb-3">
@@ -99,8 +102,9 @@
       <button
         type="submit"
         class="btn btn-login w-100"
+        [disabled]="isSubmitting()"
       >
-        Sign In
+        {{ isSubmitting() ? 'Signing in...' : 'Sign In' }}
       </button>
 
     </form>

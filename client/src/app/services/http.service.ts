@@ -15,7 +15,8 @@ export class HttpService {
   // GET request
   get<T>(endpoint: string): Observable<T> {
     return this.http.get<T>(
-      `${this.baseUrl}/${endpoint}`
+      `${this.baseUrl}/${endpoint}`,
+      { withCredentials: true }
     );
   }
 
@@ -23,14 +24,16 @@ export class HttpService {
   post<T>(endpoint: string, body: any): Observable<T> {
     return this.http.post<T>(
       `${this.baseUrl}/${endpoint}`,
-      body
+      body,
+      { withCredentials: true }
     );
   }
 
   put<T>(endpoint: string, body: any): Observable<T> {
     return this.http.put<T>(
       `${this.baseUrl}/${endpoint}`,
-      body
+      body,
+      { withCredentials: true }
     );
   }
 }

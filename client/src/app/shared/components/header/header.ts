@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppStateService } from '../../../services/app-state.service';
+import { AuthService } from '../../../services/auth.service';
 import { PRODUCT_CATEGORIES } from '../../../constants/product.constants';
 
 @Component({
@@ -22,7 +23,8 @@ export class Header {
 
   constructor(
     readonly appState: AppStateService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) { }
 
   onCategoryChange(category: string) {
@@ -60,11 +62,21 @@ export class Header {
   }
 
   logout() {
+    this.authService.logout().subscribe({
+      next: () => this.finishLogout(),
+      error: (error: unknown) => {
+        console.error('Logout request failed:', error);
+        this.finishLogout();
+      }
+    });
+  }
+
+  private finishLogout(): void {
     this.appState.clearCart();
     this.appState.clearFilters();
     this.appState.closeAddProduct();
     this.appState.closeEditProduct();
     this.appState.closeCart();
-    this.router.navigate(['/Login']);
+    void this.router.navigate(['/Login']);
   }
 }

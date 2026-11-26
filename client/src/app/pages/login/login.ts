@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -21,32 +22,38 @@ import { Router } from '@angular/router';
 export class Login {
   private fb = inject(FormBuilder);
   private router = inject(Router);
+  private authService = inject(AuthService);
 
   showPassword = signal(false);
-  submitted = signal(false);
+  isSubmitting = signal(false);
+  errorMessage = signal('');
 
   loginForm = this.fb.nonNullable.group({
-    email: ['nirav@nagarro.com', [Validators.required, Validators.email]],
-    password: ['Password123', [Validators.required, Validators.minLength(6)]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
     rememberMe: [false]
   });
 
   onLogin(): void {
-    this.submitted.set(true);
-
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
     }
 
-    const { email, password, rememberMe } =
-      this.loginForm.getRawValue();
-
-    // Connect your authentication API here.
-    console.log({ email, password, rememberMe });
-
-    // Example after successful login:
-    this.router.navigate(['/dashboard']);
+    this.errorMessage.set('');
+    this.isSubmitting.set(true);
+    this.authService.login(this.loginForm.getRawValue()).subscribe({
+      next: () => {
+        this.isSubmitting.set(false);
+        void this.router.navigate(['/dashboard']);
+      },
+      error: (error: { error?: { message?: string } }) => {
+        this.isSubmitting.set(false);
+        this.errorMessage.set(
+          error.error?.message ?? 'Unable to sign in. Please try again.'
+        );
+      }
+    });
   }
 
   togglePassword(): void {
