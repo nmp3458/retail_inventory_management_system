@@ -450,11 +450,10 @@
   }
 
   .search-container {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr) 76px;
     grid-template-areas:
-      "query query query"
-      "category discount color"
-      "submit submit submit";
+      "query submit"
+      "category discount";
   }
 
   .search-field {
@@ -469,13 +468,13 @@
     height: 38px;
   }
 
-  .category-filter,
-  .discount-filter {
+  .category-filter {
     border-right: 1px solid #e8e8e1;
   }
 
   .discount-filter {
-    border-left: 0;
+    border-right: 0;
+    border-left: 1px solid #e8e8e1;
   }
 
   .category-select,
