@@ -4,11 +4,14 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import path from 'path';
+import { createServer } from 'http';
 
 import authRoutes from './src/routes/auth.routes.ts';
 import { initializeAuth } from './src/config/auth.ts';
 import connectDB from './src/config/db.ts';
 import productRoutes from './src/routes/product.routes.ts';
+import promotionRoutes from './src/routes/promotion.routes.ts';
+import { initializePromotionSocket } from './src/services/promotion.socket.ts';
 
 dotenv.config();
 
@@ -37,9 +40,8 @@ app.use(
 );
 
 app.use('/api/auth', authRoutes);
-
-// Product APIs
 app.use('/api/products', productRoutes);
+app.use('/api/promotions', promotionRoutes);
 
 
 
@@ -47,7 +49,10 @@ const startServer = async () => {
   await connectDB();
   await initializeAuth();
 
-  app.listen(PORT, () => {
+  const httpServer = createServer(app);
+  initializePromotionSocket(httpServer);
+
+  httpServer.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
 };

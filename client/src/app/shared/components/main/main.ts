@@ -4,11 +4,12 @@ import { Header } from '../header/header';
 import { Sidebar } from '../sidebar/sidebar';
 import { RouterOutlet } from '@angular/router';
 import { EditProduct } from '../../../pages/edit-product/edit-product';
+import { PromotionBanner } from '../promotion-banner/promotion-banner';
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [Sidebar, Header, Footer, RouterOutlet, EditProduct],
+  imports: [Sidebar, Header, Footer, RouterOutlet, EditProduct, PromotionBanner],
   templateUrl: './main.html',
   styleUrl: './main.scss'
 })

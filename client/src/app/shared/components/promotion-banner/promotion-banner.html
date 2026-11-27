@@ -1,0 +1,17 @@
+@if (promotion(); as offer) {
+  <section class="promotion-banner" role="alert" aria-live="polite">
+    <div class="promotion-icon" aria-hidden="true">
+      <i class="bi bi-megaphone"></i>
+    </div>
+    <div class="promotion-content">
+      <strong>{{ offer.title }}</strong>
+      <span>{{ offer.message }}</span>
+      @if (offer.discount !== undefined) {
+        <b>{{ offer.discount }}% OFF</b>
+      }
+    </div>
+    <button type="button" class="promotion-dismiss" aria-label="Dismiss promotion" (click)="dismiss()">
+      <i class="bi bi-x-lg" aria-hidden="true"></i>
+    </button>
+  </section>
+}

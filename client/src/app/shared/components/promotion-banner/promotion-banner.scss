@@ -1,0 +1,41 @@
+.promotion-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 16px 24px 0;
+  padding: 12px 14px;
+  border: 1px solid #c9a96e;
+  border-radius: 8px;
+  background: #fff8e9;
+  color: #3f331f;
+}
+
+.promotion-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  border-radius: 50%;
+  background: #8e7040;
+  color: #fff;
+}
+
+.promotion-content {
+  display: flex;
+  flex: 1;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.promotion-content b {
+  color: #9c2f2f;
+}
+
+.promotion-dismiss {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
